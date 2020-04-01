@@ -1,3 +1,4 @@
+import 'package:flutter_insta/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -8,33 +9,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePage> {
-  int _currentIndex = 0;
+  List<Widget> pageList = List<Widget>();
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-      Text(
-        'Index 0: Home',
-        style: optionStyle,
-      ),
-      Text(
+
+
+  @override
+  void initState() {
+    pageList.add(Home(title: 'Instagram'));
+    pageList.add(Text(
         'Index 1: Search',
         style: optionStyle,
-      ),
-      Text(
-        'Index 2: Activity',
-        style: optionStyle,
-      ),
-      Text(
-        'Index 3: Profile',
-        style: optionStyle,
-      ),
-    ];
+      ));
+    super.initState();
+  }
+
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Instagram')),
-      body: Center(child: _widgetOptions.elementAt(_currentIndex)),
+      body: Center(child: IndexedStack(
+                      index: _currentIndex,
+                      children: pageList,
+                    ),
+                  ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (int index) {
